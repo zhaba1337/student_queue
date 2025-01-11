@@ -4,9 +4,20 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from dotenv import dotenv_values
+from dotenv import dotenv_values, load_dotenv
 from models.Base import Base
 
+from models.Course import Course
+from models.CourseGroup import CourseGroup 
+from models.Group import Group
+from models.Lab import Lab
+from models.Student import Student
+from models.StudentQueue import StudentQueue
+from models.Teacher import Teacher
+from models.User import User
+
+
+load_dotenv()
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

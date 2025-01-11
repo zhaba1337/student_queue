@@ -4,11 +4,8 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from typing import List, Any
 from typing_extensions import Self
+from .Base import Base
 
-
-class Base(DeclarativeBase):
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-    def __str__(self):
-        return str(self.as_dict())
+class Teacher(Base):
+    __tablename__ = 'teachers'
+    id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id", ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)

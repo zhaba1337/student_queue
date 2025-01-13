@@ -4,20 +4,18 @@ from aiogram import types
 from aiogram.filters.command import Command
 from aiogram.fsm.context import FSMContext
 
-
+from sqlalchemy import select, insert, create_engine
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
 
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from aiogram.types import ReplyKeyboardRemove
-from database.engine import Engine
 
-router = Router()
 
-en = Engine()
+from datetime import datetime
 
-@router.message(F.text)
-async def show_all_events(message: types.Message):
-    await message.answer(message)
 
+user_private_router = Router()
+
+    

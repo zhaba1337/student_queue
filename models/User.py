@@ -15,3 +15,5 @@ class User(Base):
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     patronymic: Mapped[str] = mapped_column(String(255), nullable=True)
     
+ 
+    

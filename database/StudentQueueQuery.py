@@ -17,11 +17,15 @@ from .engine import Engine
 
 class StudentQueueQuery(Engine):
     async def Add(self: Self, student_queue: StudentQueue) -> int:
-        self.session().add(student_queue)
-        await self.session().commit()
-        await self.session().flush()
-        return student_queue.id
-    
+        try:
+            self.session().add(student_queue)
+            await self.session().commit()
+            await self.session().flush()
+            return student_queue.id
+        except: 
+            self.session().rollback()
+            
+            
     async def AddVerdict(self: Self, id: int, verdict: str, verdict_time: float) -> None:
         await self.session().execute(update(StudentQueue).where(StudentQueue.id == id).values(verdict = verdict, verdict_time = verdict_time))
         await self.session().commit()
@@ -34,6 +38,12 @@ class StudentQueueQuery(Engine):
         #result = await self.session().execute(select(StudentQueue).where().where())
         result = await self.session().execute(select(StudentQueue).filter(StudentQueue.student_id == student_id, StudentQueue.verdict == None))
         return result.scalar_one_or_none()
+    
+    
+    async def GetWithVerdictNotPassed(self: Self, student_id: int) -> StudentQueue | None:
+        result = await self.session().execute(select(StudentQueue).filter(StudentQueue.student_id == student_id, StudentQueue.verdict == 'not_passed').order_by(StudentQueue.verdict_time).limit(1))
+        return result.scalar_one_or_none()
+    
     
     async def GetStudentCooldown(self: Self, student_id: int) -> StudentQueue | None:
         result = await self.session().execute(select(StudentQueue).where(StudentQueue.student_id == student_id).where(StudentQueue.verdict == 'not_passed').order_by(StudentQueue.verdict_time).limit(1))

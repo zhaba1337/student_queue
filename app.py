@@ -57,12 +57,23 @@ async def pass_lab(callback: types.CallbackQuery, callback_data: CBPassLab) -> N
 
         
     queue_where_verdict_none: StudentQueue = await StudentQueueQuery().GetWithoutVerdict(user.id)
-    if(queue_where_verdict_none is not None):
-        if (queue_where_verdict_none.verdict is not None):
-            if(student_cooldown.verdict_time.timestamp() + cooldown < datetime.now().timestamp()):
-                await callback.message.answer(f"Вы попытались сдать лабу - неудачно, подождите до окончания кулдауна.")
-                await callback.answer()
-                return 0
+    queue_where_verdict_not_passed: StudentQueue | None = await StudentQueueQuery().GetWithVerdictNotPassed(user.id)
+    
+    try:
+        await callback.message.answer(str(queue_where_verdict_not_passed.verdict_time))
+        await callback.message.answer(str(datetime.now()))
+        await callback.message.answer(str(queue_where_verdict_not_passed.verdict_time.timestamp() + cooldown < datetime.now().timestamp()))
+    except: 
+        pass
+    
+    
+    
+    if(queue_where_verdict_not_passed is not None):
+        if(queue_where_verdict_not_passed.verdict_time.timestamp() + cooldown + 28800 > datetime.now().timestamp()):
+            await callback.message.answer(f"Вы попытались сдать лабу - неудачно, подождите до окончания кулдауна.")
+            await callback.answer()
+            return 0
+    
 
     
     if queue_where_verdict_none is None:

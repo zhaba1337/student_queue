@@ -2,4 +2,4 @@
 
 alembic upgrade head
 
-python /app/main.py
+python app.py

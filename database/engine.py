@@ -7,13 +7,14 @@ from typing_extensions import Self
 
 from dotenv import dotenv_values
 
-
+import os
+#url=dotenv_values(".env")["DB_URL"], 
 class Engine:
     def __init__(self):
         pass
     
     _engine: AsyncEngine = create_async_engine(
-        url=dotenv_values(".env")["DB_URL"], 
+        url='postgresql+psycopg://postgres_user:root@postgres/student_queue', 
         echo=True, 
         connect_args={"options": "-c timezone=utc"}
         )
@@ -28,7 +29,7 @@ class Engine:
         return self._session_maker
     
     
-engine = create_async_engine(url=dotenv_values(".env")["DB_URL"])
+engine = create_async_engine(url='postgresql+psycopg://postgres_user:root@postgres/student_queue')
 
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
@@ -47,7 +48,7 @@ def connection(method):
     return wrapper
     
 
-# engine = create_async_engine(url="postgresql+psycopg://postgres:zhabka1337@localhost/bsu_priem_1", echo=True, connect_args={"options": "-c timezone=utc"})
+# engine = create_async_engine(url="postgresql+psycopg://postgres_user:root@postgres/student_queue", echo=True, connect_args={"options": "-c timezone=utc"})
 # session_maker = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
 
 

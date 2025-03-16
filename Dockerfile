@@ -1,11 +1,14 @@
-from python
+from python:3.10
 
-workdir /usr/src/app
 
-copy requirements.txt ./
-run pip install --no-cache-dir -r requirements.txt
+workdir /app
+
+copy requirements.txt requirements.txt
+
+run pip3 install --upgrade setuptools
+run pip3 install -r requirements.txt
+run chmod 755 .
 
 copy . .
-cmd ["/bin/bash", "-c", "python3 app.py"]
 
-        
+

@@ -24,13 +24,16 @@ from models.User import User
 from models.StudentQueue import StudentQueue
 
 import logging 
+import os
 
 
+# if not(load_dotenv()):
+    # raise (Exception("env empty, pls create .env file and add inside variables: 'TOKEN', 'DB_URL', 'DB_MIGRATION_URL'"))
 
-if not(load_dotenv()):
-    raise (Exception("env empty, pls create .env file and add inside variables: 'TOKEN', 'DB_URL', 'DB_MIGRATION_URL'"))
+#config: OrderedDict = dotenv_values()
+config: OrderedDict = os.environ
 
-config: OrderedDict = dotenv_values()
+
 logging.basicConfig(level=logging.INFO, filename='log.log', filemode='w')
 
 

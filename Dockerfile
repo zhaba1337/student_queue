@@ -11,4 +11,4 @@ run chmod 755 .
 
 copy . .
 
-
+CMD ["sh", "-c", "python test.py"]

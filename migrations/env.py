@@ -23,8 +23,8 @@ load_dotenv()
 # access to the values within the .ini file in use.
 config = context.config
 
-#config.set_main_option("sqlalchemy.url", dotenv_values(".env")["DB_MIGRATION_URL"])
-config.set_main_option("sqlalchemy.url", 'postgresql+psycopg2://postgres_user:root@postgres/student_queue')
+config.set_main_option("sqlalchemy.url", dotenv_values(".env")["DB_MIGRATION_URL"])
+#config.set_main_option("sqlalchemy.url", 'postgresql+psycopg2://postgres_user:root@postgres/student_queue')
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
